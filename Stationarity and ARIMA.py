@@ -12,14 +12,14 @@ from statsmodels.stats.diagnostic import acorr_ljungbox
 from statsmodels.tsa.arima_model import ARIMA
 
 data = pd.read_csv("sales_train.csv")
-#scaler = StandardScaler()
+
 scaler = MinMaxScaler(feature_range=(-1, 1))
 data['date'] = pd.to_datetime(data['date'], format = '%d.%m.%Y')
 ori_data=data
 data = data.groupby('date').sum()['item_cnt_day']
 ori_data=ori_data.groupby('date').sum()['item_cnt_day']
 
-#TEST stationarity with adfuller test and draw rolling average picture
+# test stationarity with adfuller test and draw rolling average picture
 def draw_rolling_average(data):
     data_mean=pd.rolling_mean(data,window=30)
     data_std=pd.rolling_std(data,window=30)
@@ -37,7 +37,8 @@ def DF_test(data):
     print('Observations Used:',result[3])
     for key,value in result[4].items():
         print('Critical Value (%s)'%key, value)
-#find the best p q
+
+# find the best p q
 def test_p_q(data):
     pmax = int(len(data_log)/100)
     qmax = int(len(data_log)/100)
@@ -53,6 +54,7 @@ def test_p_q(data):
     bic_matrix = pd.DataFrame(bic_matrix)
     p,q = bic_matrix.stack().idxmin()
     print(u'BIC最小的p值和q值为：%s、%s' %(p,q))
+
 # draw grap
 def Draw_pre(newres):
     plt.figure(figsize=(40,10))
@@ -60,6 +62,7 @@ def Draw_pre(newres):
     plt.plot(newres,color='black',label='predict')
     plt.legend()
     plt.show()
+
 # draw test error
 def draw_test(data,predict):
     plt.plot(data['2015-10-01':'2015-10-30'],label='true')
@@ -166,11 +169,11 @@ res=model.forecast(30)[0]
 draw_test(avg_diff,res)
 
 predict = model.predict()
-#predict =np.exp(predict)
+# predict =np.exp(predict)
 MAE = (np.abs(predict-avg_diff)).sum()/data.size
 print('ma_MAE:',MAE)
-#test_p_q(ewma_diff)
-#EWMA
+# test_p_q(ewma_diff)
+# EWMA
 ewma_diff.dropna(inplace=True)
 model = ARIMA(ewma_diff,(3,0,2)).fit()
 plt.plot(ewma_diff,label='true')
