@@ -162,18 +162,18 @@ plt.show()
 
 result = acorr_ljungbox(data_log, lags=1)#white nosie test
 
-model = ARIMA(data_log, (9,1,2)).fit(disp=-1)#train the model for log-transformed data
+model = ARIMA(data_log, (2,0,8)).fit(disp=-1)#train the model for log-transformed data
 res=model.forecast(30)[0]
 newres=np.exp(res)
 newres = pd.DataFrame(newres)
 newres.index=pd.date_range('2015-10-01','2015-10-30')
 Draw_pre(newres)
 
-plt.plot(data_log,label='true')
-plt.plot(model.fittedvalues, label='predict')
-plt.title("training reuslt for Log-transformed data")
-plt.legend()
-plt.show()
+# plt.plot(data_log,label='true')
+# plt.plot(model.fittedvalues, label='predict')
+# plt.title("training reuslt for Log-transformed data")
+# plt.legend()
+# plt.show()
 
 predict = model.predict()
 train_MSE = ((np.exp(predict)-np.exp(data_log))**2).sum()/data.size
@@ -217,7 +217,7 @@ test_MAPE=(np.abs(res-avg_diff['2015-10-01':'2015-10-30'])*100/ewma_diff['2015-1
 #test_p_q(ewma_diff)
 #EWMA
 ewma_diff.dropna(inplace=True)
-model = ARIMA(ewma_diff,(3,0,2)).fit()
+model = ARIMA(ewma_diff,(3,0,18)).fit()
 plt.plot(ewma_diff,label='true')
 plt.plot(model.fittedvalues, label='predict')
 plt.title("training reuslt for WMA data")
