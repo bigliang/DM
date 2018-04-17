@@ -8,12 +8,11 @@ import seaborn as sns
 
 
 
-item_categories=pd.read_csv('item_categories.csv')
+
 items=pd.read_csv('items.csv')
 sales_train=pd.read_csv('sales_train.csv')
 data = pd.read_csv('sales_train.csv')
 shops=pd.read_csv('shops.csv')
-test=pd.read_csv('test.csv')
 
 print(data.info())
 
