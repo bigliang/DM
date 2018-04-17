@@ -9,10 +9,10 @@ import seaborn as sns
 
 
 
-items=pd.read_csv('items.csv')
+
 sales_train=pd.read_csv('sales_train.csv')
 data = pd.read_csv('sales_train.csv')
-shops=pd.read_csv('shops.csv')
+
 
 print(data.info())
 
